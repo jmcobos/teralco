@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-6">
-    <div class="row" *ngFor="let currency of currencies">
+    <div class="row m-t-10" *ngFor="let currency of currencies">
       <div class="col-md-1">
         {{currency.acronym}}
       </div>
@@ -8,20 +8,32 @@
         {{currency.name}}
       </div>
       <div class="col-md-3">
-        <button>Delete</button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="editarCurrency(currency)">Editar</button>
       </div>
       <div class="col-md-3">
-        <button>Edit</button>
+        <button type="button" class="btn btn-default btn-sm" (click)="eliminarCurrency(currency)">Delete</button>
       </div>
     </div>
   </div>
   <div class="col-md-6" [hidden]="ocultarDetalle">
     <div class="row">
       <div class="col-md-6">
-        <input type="text" />
+        <div class="form-group required">
+          <label for="acronimo" class="control-label">Acrónimo:</label>
+          <input type="text" class="form-control" id="acronimo" [(ngModel)]="acronimo" name="acronimo" #nombreText="ngModel" required>
+        </div>
       </div>
       <div class="col-md-6">
-        <input type="text" />
+        <div class="form-group required">
+          <label for="nombre" class="control-label">Nombre:</label>
+          <input type="text" class="form-control" id="nombre" [(ngModel)]="nombre" name="nombre" #nombreText="ngModel" required>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-right">
+        <button type="button" class="btn btn-success m-r-10" (click)="aceptar()">Aceptar</button>
+        <button type="button" class="btn btn-danger" (click)="cancel()">Cancelar</button>
       </div>
     </div>
   </div>

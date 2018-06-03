@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutes } from './app.routes';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { CurrencyComponent } from './components/currency/currency.component';
@@ -18,7 +19,8 @@ import { CurrencyService } from './providers/currency.service';
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutes
+    AppRoutes,
+    FormsModule
   ],
   providers: [
     CurrencyService
