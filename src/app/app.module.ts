@@ -9,12 +9,16 @@ import { CurrencyComponent } from './components/currency/currency.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
 
 import { CurrencyService } from './providers/currency.service';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { InicioComponent } from './components/inicio/inicio.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CurrencyComponent,
-    PortfolioComponent
+    PortfolioComponent,
+    NavbarComponent,
+    InicioComponent
   ],
   imports: [
     BrowserModule,
