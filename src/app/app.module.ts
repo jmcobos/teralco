@@ -9,6 +9,8 @@ import { CurrencyComponent } from './components/currency/currency.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
 
 import { CurrencyService } from './providers/currency.service';
+import { PortfolioService } from './providers/portfolio.service';
+import { PortfolioLinesService } from './providers/portfolio-lines.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 
@@ -27,7 +29,9 @@ import { InicioComponent } from './components/inicio/inicio.component';
     FormsModule
   ],
   providers: [
-    CurrencyService
+    CurrencyService,
+    PortfolioService,
+    PortfolioLinesService
   ],
   bootstrap: [
     AppComponent

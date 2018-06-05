@@ -7,9 +7,12 @@
   <div class="col-md-6">
     <div class="row m-t-10" *ngFor="let currency of currencies">
       <div class="col-md-1">
+        {{currency.id}}
+      </div>
+      <div class="col-md-1">
         {{currency.acronym}}
       </div>
-      <div class="col-md-7">
+      <div class="col-md-6">
         {{currency.name}}
       </div>
       <div class="col-md-2">

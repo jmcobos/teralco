@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { PortfolioService } from '../../providers/portfolio.service';
+import { PortfolioLinesService } from '../../providers/portfolio-lines.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-portfolio',
@@ -7,9 +10,46 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PortfolioComponent implements OnInit {
 
-  constructor() { }
+  portfolios = [];
+
+  constructor(private portfolio: PortfolioService, private lines: PortfolioLinesService) { }
 
   ngOnInit() {
+    this.portfolio.getPortfolios().subscribe(
+      (response: any) => {
+        this.portfolios = response._embedded.portfolios;
+        this.portfolios.forEach((element) => {
+          element.mostrar = true;
+          this.lines.getPortfolioLines(element.id).subscribe(
+            (responseLine: any) => {
+              element.lineas = responseLine._embedded.portfolioLines;
+              element.lineas.forEach((e) => {
+                this.lines.getCurrencyByLine(e.id).subscribe(
+                  (responseCurrency: any) => {
+                    e.currency = responseCurrency.acronym;
+                  }
+                );
+              });
+            },
+            (error: any) => {
+              console.log('Error: ' + JSON.stringify(error));
+            }
+          );
+        });
+      },
+      (error) => {
+        console.log('Error: ' + JSON.stringify(error));
+      }
+    );
+  }
+
+  desplegarDetalle(portfolio) {
+    this.portfolios.forEach((element) => {
+      if (element.id === portfolio.id) {
+        element.mostrar = !element.mostrar;
+      }
+    });
+    console.log(this.portfolios);
   }
 
 }

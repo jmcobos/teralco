@@ -1,3 +1,55 @@
-<p>
-  portfolio works!
-</p>
+<div class="row m-t-10">
+  <div class="col-md-12 m-t-10">
+    <h2>Portfolios</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="row m-t-10" *ngFor="let portfolio of portfolios">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-12" (click)="desplegarDetalle(portfolio)">{{portfolio.name}}</div>
+        </div>
+        <div class="row" *ngFor="let line of portfolio.lineas" [hidden]="portfolio.mostrar">
+          <div class="col-md-3">
+            Id: {{line.id}}  
+          </div>
+          <div class="col-md-6">
+              Amount: {{line.amount}}
+          </div>
+          <div class="col-md-3">
+            {{line.currency}}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-primary btn-sm" (click)="editarCurrency(currency)">Editar</button>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-default btn-sm" (click)="eliminarCurrency(currency)">Delete</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6" [hidden]="ocultarDetalle">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group required">
+          <label for="acronimo" class="control-label">Acrónimo:</label>
+          <input type="text" class="form-control" id="acronimo" [(ngModel)]="acronimo" name="acronimo" #nombreText="ngModel" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group required">
+          <label for="nombre" class="control-label">Nombre:</label>
+          <input type="text" class="form-control" id="nombre" [(ngModel)]="nombre" name="nombre" #nombreText="ngModel" required>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-right">
+        <button type="button" class="btn btn-success m-r-10" (click)="aceptar()">Aceptar</button>
+        <button type="button" class="btn btn-danger" (click)="cancel()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
