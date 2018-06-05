@@ -5,10 +5,10 @@
 </div>
 <div *ngFor="let currency of currencies" [hidden]="!mostrarEditar">
   <div class="row m-t-10">
-    <div class="col-md-1"><p class="p-l-30">{{currency.id}}</p></div>
-    <div class="col-md-1"><p>{{currency.acronym}}</p></div>
-    <div class="col-md-8"><p>{{currency.name}}</p></div>
-    <div class="col-md-2">
+    <div class="col-md-1 col-sm-1 col-1"><p>{{currency.id}}</p></div>
+    <div class="col-md-1 col-sm-1 col-2"><p>{{currency.acronym}}</p></div>
+    <div class="col-md-7 col-sm-5 col-8"><p>{{currency.name}}</p></div>
+    <div class="col-md-3 col-sm-5 col-12 text-right">
       <button type="button" class="btn btn-primary btn-sm m-r-10" (click)="editarCurrency(currency)">Editar</button>
       <button type="button" class="btn btn-default btn-sm" (click)="eliminarCurrency(currency)">Delete</button>
     </div>
