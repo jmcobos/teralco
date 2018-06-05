@@ -11,6 +11,8 @@ import { forEach } from '@angular/router/src/utils/collection';
 export class PortfolioComponent implements OnInit {
 
   portfolios = [];
+  mostrarEditar = true;
+  nombrePortfolio: string;
 
   constructor(private portfolio: PortfolioService, private lines: PortfolioLinesService) { }
 
@@ -50,6 +52,22 @@ export class PortfolioComponent implements OnInit {
       }
     });
     console.log(this.portfolios);
+  }
+
+  editarPortfolio(portfolio) {
+    this.mostrarEditar = !this.mostrarEditar;
+  }
+
+  cancelarEditar() {
+    this.mostrarEditar = !this.mostrarEditar;
+  }
+
+  aceptarEditar() {
+    alert('Se ha guardado correctamente.');
+  }
+
+  eliminarPortfolio(portfolio) {
+    alert('Se ha eliminado correctamente.');
   }
 
 }

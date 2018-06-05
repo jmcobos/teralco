@@ -10,7 +10,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 export class CurrencyComponent implements OnInit {
 
   currencies = [];
-  ocultarDetalle = true;
+  mostrarEditar = true;
   actualCurrency = {};
   acronimo: string;
   nombre: string;
@@ -20,11 +20,10 @@ export class CurrencyComponent implements OnInit {
   ngOnInit() {
     this.currency.getCurrencies().subscribe(
       (response: any) => {
-        debugger;
         this.currencies = response._embedded.currencies;
       },
       (error: any) => {
-        console.log('Error: ' + error);
+        console.log('Error: ' + JSON.stringify(error));
       }
     );
   }
@@ -33,26 +32,7 @@ export class CurrencyComponent implements OnInit {
     this.acronimo = currency.acronym;
     this.nombre = currency.name;
     this.actualCurrency = currency;
-    this.ocultarDetalle = false;
-  }
-
-  aceptar() {
-    debugger;
-    this.currency.putCurrency(this.actualCurrency, this.acronimo, this.nombre).subscribe(
-      (response: any) => {
-        console.log(response);
-      },
-      (error) => {
-        debugger;
-        console.log('Error: ' + error);
-      }
-    );
-  }
-
-  cancel() {
-    this.acronimo = '';
-    this.nombre = '';
-    this.ocultarDetalle = true;
+    this.mostrarEditar = !this.mostrarEditar;
   }
 
   eliminarCurrency (currency) {
@@ -60,7 +40,7 @@ export class CurrencyComponent implements OnInit {
       (response: any) => {
         debugger;
         console.log(response);
-        this.cancel();
+        this.cancelarEditar();
         this.currencies.forEach((element, index) => {
           if (element.id === currency.id) {
             this.currencies.splice(index, 1);
@@ -73,6 +53,25 @@ export class CurrencyComponent implements OnInit {
         console.log('Error: ' + JSON.stringify(error));
       }
     );
+  }
+
+  aceptarEditar() {
+    debugger;
+    this.currency.putCurrency(this.actualCurrency, this.acronimo, this.nombre).subscribe(
+      (response: any) => {
+        console.log(response);
+      },
+      (error) => {
+        debugger;
+        console.log('Error: ' + JSON.stringify(error));
+      }
+    );
+  }
+
+  cancelarEditar() {
+    this.acronimo = '';
+    this.nombre = '';
+    this.mostrarEditar = !this.mostrarEditar;
   }
 
 }
