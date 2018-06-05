@@ -12,7 +12,7 @@ export class PortfolioComponent implements OnInit {
 
   portfolios = [];
   mostrarEditar = true;
-  nombrePortfolio: string;
+  nombre: string;
 
   constructor(private portfolio: PortfolioService, private lines: PortfolioLinesService) { }
 
@@ -55,6 +55,8 @@ export class PortfolioComponent implements OnInit {
   }
 
   editarPortfolio(portfolio) {
+    debugger;
+    this.nombre = portfolio.name;
     this.mostrarEditar = !this.mostrarEditar;
   }
 

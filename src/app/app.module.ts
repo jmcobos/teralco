@@ -14,6 +14,8 @@ import { PortfolioLinesService } from './providers/portfolio-lines.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +28,8 @@ import { InicioComponent } from './components/inicio/inicio.component';
     BrowserModule,
     HttpClientModule,
     AppRoutes,
-    FormsModule
+    FormsModule,
+    AngularFontAwesomeModule
   ],
   providers: [
     CurrencyService,
