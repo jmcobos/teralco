@@ -29,6 +29,7 @@ export class PortfolioService {
     };
     return this.http.post(this.urlBase, body, httpOptions);
   }
+  
   public putPortfolio(id, nombre) {
     const body = {
       'id': id,

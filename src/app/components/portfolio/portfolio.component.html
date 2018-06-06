@@ -42,10 +42,12 @@
       <div class="col-md-1"><p class="p-l-50">{{line.id}}</p></div>
       <div class="col-md-2"><p class="p-l-50">{{line.currency}}</p></div>
       <div class="col-md-5"><p class="p-l-50">{{line.currencyName}}</p></div>
-      <div class="col-md-2 text-right"><p class="p-l-50">{{line.amount | number:'1.2'}}</p></div>
+      <div class="col-md-2 text-right" *ngIf="!line.mostrarEditarLinea"><p class="p-l-50">{{line.amount | number:'1.2'}}</p></div>
+      <div class="col-md-2 text-right" *ngIf="line.mostrarEditarLinea"><input type="text" [(ngModel)]="line.amount"></div>
       <div class="col-md-2">
-        <button type="button" class="btn btn-link btn-sm m-r-10" (click)="editarPortfolio(portfolio)"><fa name="edit" size="lg"></fa></button>
-        <button type="button" class="btn btn-link btn-sm" (click)="eliminarPortfolio(portfolio)"><fa name="trash" size="lg"></fa></button>
+        <button type="button" *ngIf="!line.mostrarEditarLinea" class="btn btn-link btn-sm m-r-10" (click)="editarPortfolioLine(line, portfolio)"><fa name="edit" size="lg"></fa></button>
+        <button type="button" *ngIf="line.mostrarEditarLinea" class="btn btn-link btn-sm m-r-10" (click)="editarPortfolioLine(line, portfolio)"><fa name="save" size="lg"></fa></button>
+        <button type="button" class="btn btn-link btn-sm" (click)="eliminarPortfolioLine(line)"><fa name="trash" size="lg"></fa></button>
       </div>
     </div>
   </div>

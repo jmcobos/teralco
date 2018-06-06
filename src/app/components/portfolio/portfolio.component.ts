@@ -17,6 +17,7 @@ export class PortfolioComponent implements OnInit {
   mostrarEditar = true;
   creando = false;
   cargado = false;
+  editarLinea = false;
 
   constructor(private portfolio: PortfolioService, private lines: PortfolioLinesService) { }
 
@@ -102,10 +103,12 @@ export class PortfolioComponent implements OnInit {
             (responseLine: any) => {
               element.lineas = responseLine._embedded.portfolioLines;
               element.lineas.forEach((e) => {
+                e.mostrarEditarLinea = false;
                 this.lines.getCurrencyByLine(e.id).subscribe(
                   (responseCurrency: any) => {
                     e.currency = responseCurrency.acronym;
                     e.currencyName = responseCurrency.name;
+                    e.currencyId = responseCurrency.id;
                     this.cargado = true;
                   }
                 );
@@ -121,6 +124,27 @@ export class PortfolioComponent implements OnInit {
         swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
       }
     );
+  }
+
+  eliminarPortfolioLine(line) {
+    this.lines.deletePortfolioLine(line.id).subscribe(
+      (response: any) => {
+        swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
+      },
+      (error) => {
+        swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+      }
+    )
+  }
+
+  editarPortfolioLine(line, portfolio) {
+    this.portfolios.forEach(element => {
+      element.lineas.forEach(e => {
+        if (e.id === line.id) {
+          e.mostrarEditarLinea = true;
+        }
+      });
+    });
   }
 
 }
