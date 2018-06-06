@@ -28,18 +28,22 @@ export class CurrencyComponent implements OnInit {
     );
   }
 
-  editarCurrency (currency) {
-    this.acronimo = currency.acronym;
-    this.nombre = currency.name;
-    this.actualCurrency = currency;
+  crearCurrency() {
+    /*this*/
+  }
+
+  editarCurrency(currency) {
+    if (currency) {
+      this.acronimo = currency.acronym;
+      this.nombre = currency.name;
+      this.actualCurrency = currency;
+    }
     this.mostrarEditar = !this.mostrarEditar;
   }
 
-  eliminarCurrency (currency) {
+  eliminarCurrency(currency) {
     this.currency.deleteCurrency(currency).subscribe(
       (response: any) => {
-        debugger;
-        console.log(response);
         this.cancelarEditar();
         this.currencies.forEach((element, index) => {
           if (element.id === currency.id) {
@@ -49,20 +53,29 @@ export class CurrencyComponent implements OnInit {
         alert(currency.name);
       },
       (error: any) => {
-        debugger;
         console.log('Error: ' + JSON.stringify(error));
       }
     );
   }
 
   aceptarEditar() {
-    debugger;
-    this.currency.putCurrency(this.actualCurrency, this.acronimo, this.nombre).subscribe(
+    this.currency.getCoinsAvailables().subscribe(
       (response: any) => {
-        console.log(response);
+        const coins = response;
+        coins.forEach(element => {
+          if (element.Name === this.acronimo) {
+            this.currency.putCurrency(this.actualCurrency, this.acronimo, this.nombre).subscribe(
+              (responsePut: any) => {
+                console.log(responsePut);
+              },
+              (error) => {
+                console.log('Error: ' + JSON.stringify(error));
+              }
+            );
+          }
+        });
       },
       (error) => {
-        debugger;
         console.log('Error: ' + JSON.stringify(error));
       }
     );

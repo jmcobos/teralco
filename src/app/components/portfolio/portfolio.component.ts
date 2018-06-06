@@ -55,7 +55,6 @@ export class PortfolioComponent implements OnInit {
   }
 
   editarPortfolio(portfolio) {
-    debugger;
     this.nombre = portfolio.name;
     this.mostrarEditar = !this.mostrarEditar;
   }

@@ -3,8 +3,16 @@
     margin-top: 10px;
 }
 
+.m-t-20{
+    margin-top: 15px;
+}
+
 .m-r-10 {
     margin-right: 10px;
+}
+
+.m-l-10 {
+    padding-left: 10px;
 }
 
 .p-l-30{
@@ -13,4 +21,8 @@
 
 .p-l-50{
     margin-left: 50px;
+}
+
+.p-l-0 {
+    padding-left: 0px !important;
 }

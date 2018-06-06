@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { headersToString } from 'selenium-webdriver/http';
+import { map } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -14,47 +15,42 @@ const httpOptions = {
 export class CurrencyService {
 
   private urlBase: string;
+  private urlCoins: string;
 
   constructor(private http: HttpClient) {
     this.urlBase = 'https://sheltered-cliffs-34052.herokuapp.com/api/';
+    this.urlCoins = 'https://www.cryptocompare.com/api/data/coinlist/';
   }
 
   public getCurrencies() {
     return this.http.get(this.urlBase + 'currency', httpOptions);
   }
 
+  public postCurrency(acronimo, nombre) {
+    const body = {
+      'id': null,
+      'acronim': acronimo,
+      'name': nombre
+    };
+    return this.http.post(this.urlBase + 'currency', body, httpOptions);
+  }
   public putCurrency(currency, acronimo, nombre) {
     const body = {
       'id': currency.id,
       'acronym': acronimo,
       'name': nombre
     };
-    const httpOptions2 = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Accept': '*/*',
-        'Access-Control-Allow-Origin': '*'
-      })
-    };
-    return this.http.put(this.urlBase + 'currency/' + currency.id, body, httpOptions2);
+    return this.http.put(this.urlBase + 'currency/' + currency.id, body, httpOptions);
   }
 
   public deleteCurrency(currency) {
-    /*let headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded');*/
+    return this.http.delete(this.urlBase + 'currency/' + currency.id, httpOptions);
+  }
 
-    let headers3 = new HttpHeaders().set('Accept', '*/*');
-
-        /*return this.http.post(this.url+'productos', params, {headers: headers});*/
-    /*const httpOptions3 = {
-      headers: new HttpHeaders({
-        'Accept': '*',
-        'Access-Control-Allow-Origin':
-      })
-};*/
-  const url = this.urlBase + 'currency/' + currency.id;
-debugger;
-
-    return this.http.delete(url, { headers: headers3 });
+  public getCoinsAvailables() {
+    return this.http.get(this.urlCoins, httpOptions).pipe(
+      map((coins: any) => coins.Data)
+    );
   }
 
 }
