@@ -20,15 +20,7 @@ export class CurrencyComponent implements OnInit {
   constructor(private currency: CurrencyService) { }
 
   ngOnInit() {
-    this.currency.getCurrencies().subscribe(
-      (response: any) => {
-        this.currencies = response._embedded.currencies;
-        this.cargado = true;
-      },
-      (error: any) => {
-        swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
-      }
-    );
+    this.cargarDatos();
   }
 
   editarCurrency(currency) {
@@ -45,7 +37,7 @@ export class CurrencyComponent implements OnInit {
   }
 
   eliminarCurrency(currency) {
-    this.currency.deleteCurrency(currency).subscribe(
+    this.currency.deleteCurrency(currency.id).subscribe(
       (response: any) => {
         this.cancelarEditar();
         this.currencies.forEach((element, index) => {
@@ -63,35 +55,40 @@ export class CurrencyComponent implements OnInit {
 
   aceptarEditar(form) {
     if (!this.creando) {
-      this.currency.getCoinsAvailables().subscribe(
-        (response: any) => {
-          const coins = response;
-          coins.forEach(element => {
-            if (element.Name === this.coin.acronym) {
-              this.currency.putCurrency(this.coin.id, this.coin.acronym, this.coin.name).subscribe(
-                (responsePut: any) => {
-                  swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
-                },
-                (error) => {
-                  swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
-                }
-              );
+      this.currency.getCoinsAvailables(this.coin.acronym).subscribe(response => {
+        if (response.length === 1) {
+          this.currency.putCurrency(this.coin).subscribe(
+            (responsePut: any) => {
+              debugger;
+              swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
+              this.cancelarEditar();
+              this.cargarDatos();
+            },
+            (error) => {
+              swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
             }
-          });
-        },
-        (error) => {
-          swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+          );
+        } else {
+          swal({ type: 'error', title: 'Oops...', text: 'This acronym doesn\'t exist!' });
         }
-      );
+      });
     } else {
-      this.currency.getCoinsAvailables().subscribe(
-        (response: any) => {
-          swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
-        },
-        (error) => {
-          swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+      this.currency.getCoinsAvailables(this.coin.acronym).subscribe(response => {
+        if (response.length === 1) {
+          this.currency.postCurrency(this.coin).subscribe(
+            (responsePut: any) => {
+              swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
+              this.cancelarEditar();
+              this.cargarDatos();
+            },
+            (error) => {
+              swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+            }
+          );
+        } else {
+          swal({ type: 'error', title: 'Oops...', text: 'This acronym doesn\'t exist!' });
         }
-      );
+      });
     }
   }
 
@@ -100,6 +97,18 @@ export class CurrencyComponent implements OnInit {
     this.coin.acronym = '';
     this.coin.name = '';
     this.mostrarEditar = !this.mostrarEditar;
+  }
+
+  cargarDatos() {
+    this.currency.getCurrencies().subscribe(
+      (response: any) => {
+        this.currencies = response._embedded.currencies;
+        this.cargado = true;
+      },
+      (error: any) => {
+        swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+      }
+    );
   }
 
 }

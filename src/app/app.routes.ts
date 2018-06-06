@@ -10,4 +10,4 @@ const appRoutes: Routes = [
     { path: '**', pathMatch: 'full', redirectTo: 'currency' }
 ];
 
-export const AppRoutes = RouterModule.forRoot(appRoutes, { enableTracing: true });
+export const AppRoutes = RouterModule.forRoot(appRoutes, { enableTracing: false, useHash: true });

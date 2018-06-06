@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Portfolio } from './../models/portfolio';
+import { urlPortfolio } from './../config/urls.component';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -12,34 +14,22 @@ const httpOptions = {
 })
 export class PortfolioService {
 
-  private urlBase: string;
-
-  constructor(private http: HttpClient) {
-    this.urlBase = 'https://sheltered-cliffs-34052.herokuapp.com/api/portfolio';
-  }
+  constructor(private http: HttpClient) { }
 
   public getPortfolios () {
-    return this.http.get(this.urlBase, httpOptions);
+    return this.http.get(urlPortfolio, httpOptions);
   }
 
-  public postPortfolio(id, nombre) {
-    const body = {
-      'id': null,
-      'name': nombre
-    };
-    return this.http.post(this.urlBase, body, httpOptions);
+  public postPortfolio(body: Portfolio) {
+    return this.http.post(urlPortfolio, body, httpOptions);
   }
   
-  public putPortfolio(id, nombre) {
-    const body = {
-      'id': id,
-      'name': nombre
-    };
-    return this.http.put(this.urlBase + '/' + id, body, httpOptions);
+  public putPortfolio(body: Portfolio) {
+    return this.http.put(urlPortfolio + '/' + body.id, body, httpOptions);
   }
 
   public deletePortfolio(id) {
-    return this.http.delete(this.urlBase + '/' + id, httpOptions);
+    return this.http.delete(urlPortfolio + '/' + id, httpOptions);
   }
 
 }

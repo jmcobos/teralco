@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { urlPortfolio, urlPortfolioLines } from './../config/urls.component';
+import { Portfolioline } from './../models/portfolioline';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -12,43 +14,25 @@ const httpOptions = {
 })
 export class PortfolioLinesService {
 
-  private urlBase: string;
-  private urlBasePortfolio: string;
-
-  constructor(private http: HttpClient) {
-    this.urlBase = 'https://sheltered-cliffs-34052.herokuapp.com/api/portfolioline';
-    this.urlBasePortfolio = 'https://sheltered-cliffs-34052.herokuapp.com/api/portfolio';
-  }
+  constructor(private http: HttpClient) { }
 
   public getPortfolioLines(id) {
-    return this.http.get(this.urlBasePortfolio + '/' + id + '/lines', httpOptions);
+    return this.http.get(urlPortfolio + '/' + id + '/lines', httpOptions);
   }
 
   public getCurrencyByLine(id) {
-    return this.http.get(this.urlBase + '/' + id + '/currency', httpOptions);
+    return this.http.get(urlPortfolioLines + '/' + id + '/currency', httpOptions);
   }
 
-  public postPortfolioLine(id, nombre, currency, portfolio) {
-    const body = {
-      'id': null,
-      'amount': nombre,
-      'currency': currency,
-      'portfolio': portfolio
-    };
-    return this.http.post(this.urlBase + '/' + id, body, httpOptions);
+  public postPortfolioLine(body: Portfolioline) {
+    return this.http.post(urlPortfolioLines + '/' + body.id, body, httpOptions);
   }
 
-  public putPortfolioLine(id, nombre, currency, portfolio) {
-    const body = {
-      'id': null,
-      'amount': nombre,
-      'currency': currency,
-      'portfolio': portfolio
-    };
-    return this.http.put(this.urlBase + '/' + id, body, httpOptions);
+  public putPortfolioLine(body: Portfolioline) {
+    return this.http.put(urlPortfolioLines + '/' + body.id, body, httpOptions);
   }
 
   public deletePortfolioLine(id) {
-    return this.http.delete(this.urlBase + '/' + id, httpOptions);
+    return this.http.delete(urlPortfolioLines + '/' + id, httpOptions);
   }
 }

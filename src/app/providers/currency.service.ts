@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { headersToString } from 'selenium-webdriver/http';
+import { urlCurrency, urlCriptoCompare  } from './../config/urls.component';
+import { Coin } from './../models/coin';
 import { map } from 'rxjs/operators';
 
 const httpOptions = {
@@ -14,43 +16,31 @@ const httpOptions = {
 })
 export class CurrencyService {
 
-  private urlBase: string;
-  private urlCoins: string;
-
-  constructor(private http: HttpClient) {
-    this.urlBase = 'https://sheltered-cliffs-34052.herokuapp.com/api/';
-    this.urlCoins = 'https://www.cryptocompare.com/api/data/coinlist/';
-  }
+  constructor(private http: HttpClient) { }
 
   public getCurrencies() {
-    return this.http.get(this.urlBase + 'currency', httpOptions);
+    return this.http.get(urlCurrency, httpOptions);
   }
 
-  public postCurrency(acronimo, nombre) {
-    const body = {
-      'id': null,
-      'acronim': acronimo,
-      'name': nombre
-    };
-    return this.http.post(this.urlBase + 'currency', body, httpOptions);
+  public postCurrency(body: Coin) {
+    body.id = 0;
+    return this.http.post(urlCurrency, body, httpOptions);
   }
-  public putCurrency(currency, acronimo, nombre) {
-    const body = {
-      'id': currency.id,
-      'acronym': acronimo,
-      'name': nombre
-    };
-    return this.http.put(this.urlBase + 'currency/' + currency.id, body, httpOptions);
+  public putCurrency(body: Coin) {
+    return this.http.put(urlCurrency + '/' + body.id, body, httpOptions);
   }
 
-  public deleteCurrency(currency) {
-    return this.http.delete(this.urlBase + 'currency/' + currency.id, httpOptions);
+  public deleteCurrency(id) {
+    return this.http.delete(urlCurrency + '/' + id, httpOptions);
   }
 
-  public getCoinsAvailables() {
-    return this.http.get(this.urlCoins, httpOptions).pipe(
-      map((coins: any) => coins.Data)
-    );
+  public getCoinsAvailables(acronym) {
+    debugger;
+    return this.http.get(urlCriptoCompare, httpOptions).pipe(
+      map((coins: any) => {
+        return Object.keys(coins.Data).filter(key => coins.Data[key].Name == acronym);
+      })
+    )
   }
 
 }

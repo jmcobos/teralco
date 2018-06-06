@@ -53,7 +53,7 @@ export class PortfolioComponent implements OnInit {
 
   aceptarEditar(form) {
     if (!this.creando) {
-      this.portfolio.putPortfolio(this.portflo.id, this.portflo.name).subscribe(
+      this.portfolio.putPortfolio(this.portflo).subscribe(
         (responsePut: any) => {
           swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
           this.cancelarEditar();
@@ -63,7 +63,7 @@ export class PortfolioComponent implements OnInit {
         }
       );
     } else {
-      this.portfolio.postPortfolio(this.portflo.id, this.portflo.name).subscribe(
+      this.portfolio.postPortfolio(this.portflo).subscribe(
         (response: any) => {
           swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
           this.cancelarEditar();
