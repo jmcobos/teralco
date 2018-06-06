@@ -17,7 +17,13 @@
   <div *ngFor="let portfolio of portfolios" [hidden]="!mostrarEditar">
     <div class="row m-t-10">
       <div class="col-md-1"><p>{{portfolio.id}}</p></div>
-      <div class="col-md-9"><p (click)="desplegarDetalle(portfolio)">{{portfolio.name}}</p></div>
+      <div class="col-md-9">
+        <p (click)="desplegarDetalle(portfolio)">
+          {{portfolio.name}}
+          <span *ngIf="portfolio.mostrar"><fa name="angle-down" size="lg"></fa></span>
+          <span *ngIf="!portfolio.mostrar"><fa name="angle-up" size="lg"></fa></span>
+        </p>
+      </div>
       <div class="col-md-1 text-right p-l-0">
         <button type="button" class="btn btn-primary btn-block btn-sm m-r-10" (click)="editarPortfolio(portfolio)">Editar</button>
       </div>
