@@ -51,9 +51,9 @@ export class CurrencyComponent implements OnInit {
         this.currencies.forEach((element, index) => {
           if (element.id === currency.id) {
             this.currencies.splice(index, 1);
+            swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
           }
         });
-        alert(currency.name);
       },
       (error: any) => {
         swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
@@ -70,7 +70,7 @@ export class CurrencyComponent implements OnInit {
             if (element.Name === this.coin.acronym) {
               this.currency.putCurrency(this.coin.id, this.coin.acronym, this.coin.name).subscribe(
                 (responsePut: any) => {
-                  console.log(responsePut);
+                  swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
                 },
                 (error) => {
                   swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
@@ -86,7 +86,7 @@ export class CurrencyComponent implements OnInit {
     } else {
       this.currency.getCoinsAvailables().subscribe(
         (response: any) => {
-          /*Realizar la comprobación del acrónimo.*/
+          swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
         },
         (error) => {
           swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });

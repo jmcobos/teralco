@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PortfolioService } from '../../providers/portfolio.service';
 import { PortfolioLinesService } from '../../providers/portfolio-lines.service';
 import { forEach } from '@angular/router/src/utils/collection';
+import { Portfolio } from '../../models/portfolio';
 import swal from 'sweetalert2';
 
 @Component({
@@ -12,8 +13,9 @@ import swal from 'sweetalert2';
 export class PortfolioComponent implements OnInit {
 
   portfolios = [];
+  portflo = new Portfolio(0, '');
   mostrarEditar = true;
-  nombre: string;
+  creando = false;
   cargado = false;
 
   constructor(private portfolio: PortfolioService, private lines: PortfolioLinesService) { }
@@ -31,6 +33,7 @@ export class PortfolioComponent implements OnInit {
                 this.lines.getCurrencyByLine(e.id).subscribe(
                   (responseCurrency: any) => {
                     e.currency = responseCurrency.acronym;
+                    e.currencyName = responseCurrency.name;
                     this.cargado = true;
                   }
                 );
@@ -38,14 +41,12 @@ export class PortfolioComponent implements OnInit {
             },
             (error: any) => {
               swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
-              console.log('Error: ' + JSON.stringify(error));
             }
           );
         });
       },
       (error) => {
         swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
-        console.log('Error: ' + JSON.stringify(error));
       }
     );
   }
@@ -59,20 +60,60 @@ export class PortfolioComponent implements OnInit {
   }
 
   editarPortfolio(portfolio) {
-    this.nombre = portfolio.name;
-    this.mostrarEditar = !this.mostrarEditar;
+    if (portfolio) {
+      this.creando = false;
+      this.portflo.id = portfolio.id;
+      this.portflo.name = portfolio.name;
+      this.mostrarEditar = !this.mostrarEditar;
+    } else {
+      this.creando = true;
+      this.cancelarEditar();
+    }
   }
 
   cancelarEditar() {
+    this.portflo.id = 0;
+    this.portflo.name = '';
     this.mostrarEditar = !this.mostrarEditar;
   }
 
-  aceptarEditar() {
-    alert('Se ha guardado correctamente.');
+  aceptarEditar(form) {
+    if (!this.creando) {
+      this.portfolio.putPortfolio(this.portflo.id, this.portflo.name).subscribe(
+        (responsePut: any) => {
+          swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
+        },
+        (error) => {
+          swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+        }
+      );
+    } else {
+      this.portfolio.postPortfolio(this.portflo.id, this.portflo.name).subscribe(
+        (response: any) => {
+          swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
+        },
+        (error) => {
+          swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+        }
+      );
+    }
   }
 
   eliminarPortfolio(portfolio) {
-    alert('Se ha eliminado correctamente.');
+    this.portfolio.deletePortfolio(portfolio.id).subscribe(
+      (response: any) => {
+        this.cancelarEditar();
+        this.portfolios.forEach((element, index) => {
+          if (element.id === portfolio.id) {
+            this.portfolios.splice(index, 1);
+          }
+        });
+        swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
+      },
+      (error: any) => {
+        swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+      }
+    );
   }
 
 }

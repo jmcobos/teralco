@@ -18,8 +18,27 @@ export class PortfolioService {
     this.urlBase = 'https://sheltered-cliffs-34052.herokuapp.com/api/portfolio';
   }
 
-  getPortfolios () {
+  public getPortfolios () {
     return this.http.get(this.urlBase, httpOptions);
+  }
+
+  public postPortfolio(id, nombre) {
+    const body = {
+      'id': null,
+      'name': nombre
+    };
+    return this.http.post(this.urlBase, body, httpOptions);
+  }
+  public putPortfolio(id, nombre) {
+    const body = {
+      'id': id,
+      'name': nombre
+    };
+    return this.http.put(this.urlBase + '/' + id, body, httpOptions);
+  }
+
+  public deletePortfolio(id) {
+    return this.http.delete(this.urlBase + '/' + id, httpOptions);
   }
 
 }

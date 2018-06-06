@@ -25,46 +25,37 @@
         <button type="button" class="btn btn-default btn-block btn-sm" (click)="eliminarPortfolio(portfolio)">Delete</button>
       </div>
     </div>
-    <form #portfolioForm="ngForm" (ngSubmit)="aceptarEditar(portfolioForm); portfolioForm.reset();">
-      <div class="row m-t-10" [hidden]="portfolio.mostrar">
-        <div class="col-md-1">
-            <p class="p-l-50">Id</p>
-        </div>
-        <div class="col-md-7">
-            <p class="p-l-50">Coin</p> 
-        </div>
-        <div class="col-md-2 text-right">
-            <p class="p-l-50">Amount</p>
-        </div>
-        <div class="col-md-2"></div>
+    <div class="row m-t-10" [hidden]="portfolio.mostrar">
+      <div class="col-md-1"><p class="p-l-50">Id</p></div>
+      <div class="col-md-2"><p class="p-l-50">Coin</p></div>
+      <div class="col-md-5"><p class="p-l-50">Name</p></div>
+      <div class="col-md-2 text-right"><p class="p-l-50">Amount</p></div>
+      <div class="col-md-2"></div>
+    </div>
+    <div class="row" *ngFor="let line of portfolio.lineas" [hidden]="portfolio.mostrar">
+      <div class="col-md-1"><p class="p-l-50">{{line.id}}</p></div>
+      <div class="col-md-2"><p class="p-l-50">{{line.currency}}</p></div>
+      <div class="col-md-5"><p class="p-l-50">{{line.currencyName}}</p></div>
+      <div class="col-md-2 text-right"><p class="p-l-50">{{line.amount | number:'1.2'}}</p></div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-link btn-sm m-r-10" (click)="editarPortfolio(portfolio)"><fa name="edit" size="lg"></fa></button>
+        <button type="button" class="btn btn-link btn-sm" (click)="eliminarPortfolio(portfolio)"><fa name="trash" size="lg"></fa></button>
       </div>
-      <div class="row" *ngFor="let line of portfolio.lineas" [hidden]="portfolio.mostrar">
-        <div class="col-md-1">
-            <p class="p-l-50">{{line.id}}</p>
-        </div>
-        <div class="col-md-7">
-            <p class="p-l-50">{{line.currency}}</p> 
-        </div>
-        <div class="col-md-2 text-right">
-            <p class="p-l-50">{{line.amount}}</p>
-        </div>
-        <div class="col-md-2">
-          <button type="button" class="btn btn-link btn-sm m-r-10" (click)="editarPortfolio(portfolio)"><fa name="edit" size="lg"></fa></button>
-          <button type="button" class="btn btn-link btn-sm" (click)="eliminarPortfolio(portfolio)"><fa name="trash" size="lg"></fa></button>
-        </div>
-      </div>
-      <div class="row m-t-10" [hidden]="mostrarEditar">
-          <div class="col-md-12">
-            <div class="form-group required">
-              <label for="nombre" class="control-label">Nombre:</label>
-              <input type="text" class="form-control" id="nombre" [(ngModel)]="nombre" name="nombre" #nombreText="ngModel" required>
-            </div>
-          </div>
-          <div class="col-md-12 text-right">
-            <button type="button" class="btn btn-success m-r-10" (click)="aceptarEditar()">Aceptar</button>
-            <button type="button" class="btn btn-danger" (click)="cancelarEditar()">Cancelar</button>
-          </div>  
-      </div>
-    </form>
+    </div>
   </div>
+  <form #portfolioForm="ngForm" (ngSubmit)="aceptarEditar(portfolioForm); portfolioForm.reset();">
+    <div class="row m-t-10" [hidden]="mostrarEditar">
+      <div class="col-md-12">
+        <div class="form-group required">
+          <label for="name" class="control-label">Name:</label>
+          <input type="text" class="form-control" id="name" [(ngModel)]="portflo.name" name="name" #name="ngModel" required>
+          <div [hidden]="name.valid || name.pristine" class="alert alert-danger">El nombre no puede estar vacío.</div>
+        </div>
+      </div>
+      <div class="col-md-12 text-right">
+        <button type="submit" class="btn btn-success m-r-10" [disabled]="!portfolioForm.form.valid">Aceptar</button>
+        <button type="button" class="btn btn-danger" (click)="cancelarEditar(); portfolioForm.reset();">Cancelar</button>
+      </div>  
+    </div>
+  </form>
 </div>
