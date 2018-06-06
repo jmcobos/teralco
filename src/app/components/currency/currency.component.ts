@@ -14,6 +14,7 @@ export class CurrencyComponent implements OnInit {
   currencies = [];
   coin = new Coin(0, '', '');
   mostrarEditar = true;
+  creando = false;
 
   constructor(private currency: CurrencyService) { }
 
@@ -28,17 +29,15 @@ export class CurrencyComponent implements OnInit {
     );
   }
 
-  crearCurrency() {
-    alert('hola');
-  }
-
   editarCurrency(currency) {
     if (currency) {
+      this.creando = false;
       this.coin.id = currency.id;
       this.coin.acronym = currency.acronym;
       this.coin.name = currency.name;
       this.mostrarEditar = !this.mostrarEditar;
     } else {
+      this.creando = true;
       this.cancelarEditar();
     }
   }
@@ -60,27 +59,38 @@ export class CurrencyComponent implements OnInit {
     );
   }
 
-  aceptarEditar() {
-    this.currency.getCoinsAvailables().subscribe(
-      (response: any) => {
-        const coins = response;
-        coins.forEach(element => {
-          if (element.Name === this.coin.acronym) {
-            this.currency.putCurrency(this.coin.id, this.coin.acronym, this.coin.name).subscribe(
-              (responsePut: any) => {
-                console.log(responsePut);
-              },
-              (error) => {
-                swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
-              }
-            );
-          }
-        });
-      },
-      (error) => {
-        swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
-      }
-    );
+  aceptarEditar(form) {
+    if (!this.creando) {
+      this.currency.getCoinsAvailables().subscribe(
+        (response: any) => {
+          const coins = response;
+          coins.forEach(element => {
+            if (element.Name === this.coin.acronym) {
+              this.currency.putCurrency(this.coin.id, this.coin.acronym, this.coin.name).subscribe(
+                (responsePut: any) => {
+                  console.log(responsePut);
+                },
+                (error) => {
+                  swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+                }
+              );
+            }
+          });
+        },
+        (error) => {
+          swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+        }
+      );
+    } else {
+      this.currency.getCoinsAvailables().subscribe(
+        (response: any) => {
+          /*Realizar la comprobación del acrónimo.*/
+        },
+        (error) => {
+          swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+        }
+      );
+    }
   }
 
   cancelarEditar() {

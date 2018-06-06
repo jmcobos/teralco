@@ -23,7 +23,7 @@
     </div>
   </div>
 </div>
-<form #loginForm="ngForm" (ngSubmit)="aceptarEditar()">
+<form #loginForm="ngForm" (ngSubmit)="aceptarEditar(loginForm); loginForm.reset();">
   <div class="row m-t-10" [hidden]="mostrarEditar">
     <div class="col-md-6">
       <div class="form-group required">
@@ -41,7 +41,7 @@
     </div>
     <div class="col-md-12 text-right">
       <button type="submit" class="btn btn-success m-r-10" [disabled]="!loginForm.form.valid">Aceptar</button>
-      <button type="button" class="btn btn-danger" (click)="cancelarEditar()">Cancelar</button>
+      <button type="button" class="btn btn-danger" (click)="cancelarEditar(); loginForm.reset();">Cancelar</button>
     </div>
   </div>
 </form>
