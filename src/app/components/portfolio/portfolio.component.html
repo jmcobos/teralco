@@ -23,25 +23,26 @@
   </div>
   <form #portfolioForm="ngForm" (ngSubmit)="aceptarEditar(portfolioForm); portfolioForm.reset();">
     <div class="row m-t-10" [hidden]="portfolio.mostrar">
-      <div class="col-md-2">
+      <div class="col-md-1">
           <p class="p-l-50">Id</p>
       </div>
-      <div class="col-md-6">
-          <p class="p-l-50">Amount</p> 
+      <div class="col-md-7">
+          <p class="p-l-50">Coin</p> 
       </div>
-      <div class="col-md-2">
-          <p class="p-l-50">Coin</p>
+      <div class="col-md-2 text-right">
+          <p class="p-l-50">Amount</p>
       </div>
+      <div class="col-md-2"></div>
     </div>
     <div class="row" *ngFor="let line of portfolio.lineas" [hidden]="portfolio.mostrar">
-      <div class="col-md-2">
+      <div class="col-md-1">
           <p class="p-l-50">{{line.id}}</p>
       </div>
-      <div class="col-md-6">
-          <p class="p-l-50">{{line.amount}}</p> 
+      <div class="col-md-7">
+          <p class="p-l-50">{{line.currency}}</p> 
       </div>
-      <div class="col-md-2">
-          <p class="p-l-50">{{line.currency}}</p>
+      <div class="col-md-2 text-right">
+          <p class="p-l-50">{{line.amount}}</p>
       </div>
       <div class="col-md-2">
         <button type="button" class="btn btn-link btn-sm m-r-10" (click)="editarPortfolio(portfolio)"><fa name="edit" size="lg"></fa></button>
