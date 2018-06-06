@@ -21,34 +21,7 @@ export class PortfolioComponent implements OnInit {
   constructor(private portfolio: PortfolioService, private lines: PortfolioLinesService) { }
 
   ngOnInit() {
-    this.portfolio.getPortfolios().subscribe(
-      (response: any) => {
-        this.portfolios = response._embedded.portfolios;
-        this.portfolios.forEach((element) => {
-          element.mostrar = true;
-          this.lines.getPortfolioLines(element.id).subscribe(
-            (responseLine: any) => {
-              element.lineas = responseLine._embedded.portfolioLines;
-              element.lineas.forEach((e) => {
-                this.lines.getCurrencyByLine(e.id).subscribe(
-                  (responseCurrency: any) => {
-                    e.currency = responseCurrency.acronym;
-                    e.currencyName = responseCurrency.name;
-                    this.cargado = true;
-                  }
-                );
-              });
-            },
-            (error: any) => {
-              swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
-            }
-          );
-        });
-      },
-      (error) => {
-        swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
-      }
-    );
+    this.cargarDatos();
   }
 
   desplegarDetalle(portfolio) {
@@ -82,6 +55,7 @@ export class PortfolioComponent implements OnInit {
       this.portfolio.putPortfolio(this.portflo.id, this.portflo.name).subscribe(
         (responsePut: any) => {
           swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
+          this.cancelarEditar();
         },
         (error) => {
           swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
@@ -91,6 +65,8 @@ export class PortfolioComponent implements OnInit {
       this.portfolio.postPortfolio(this.portflo.id, this.portflo.name).subscribe(
         (response: any) => {
           swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
+          this.cancelarEditar();
+          this.cargarDatos();
         },
         (error) => {
           swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
@@ -111,6 +87,37 @@ export class PortfolioComponent implements OnInit {
         swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
       },
       (error: any) => {
+        swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+      }
+    );
+  }
+
+  private cargarDatos() {
+    this.portfolio.getPortfolios().subscribe(
+      (response: any) => {
+        this.portfolios = response._embedded.portfolios;
+        this.portfolios.forEach((element) => {
+          element.mostrar = true;
+          this.lines.getPortfolioLines(element.id).subscribe(
+            (responseLine: any) => {
+              element.lineas = responseLine._embedded.portfolioLines;
+              element.lineas.forEach((e) => {
+                this.lines.getCurrencyByLine(e.id).subscribe(
+                  (responseCurrency: any) => {
+                    e.currency = responseCurrency.acronym;
+                    e.currencyName = responseCurrency.name;
+                    this.cargado = true;
+                  }
+                );
+              });
+            },
+            (error: any) => {
+              swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+            }
+          );
+        });
+      },
+      (error) => {
         swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
       }
     );
