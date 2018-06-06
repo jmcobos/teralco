@@ -23,21 +23,25 @@
     </div>
   </div>
 </div>
-<div class="row m-t-10" [hidden]="mostrarEditar">
-  <div class="col-md-6">
-    <div class="form-group required">
-      <label for="acronimo" class="control-label">Acrónimo:</label>
-      <input type="text" class="form-control" id="acronimo" [(ngModel)]="acronimo" name="acronimo" #nombreText="ngModel" required>
+<form #loginForm="ngForm" (ngSubmit)="aceptarEditar()">
+  <div class="row m-t-10" [hidden]="mostrarEditar">
+    <div class="col-md-6">
+      <div class="form-group required">
+        <label for="acronym" class="control-label">Acrónimo:</label>
+        <input type="text" class="form-control" id="acronym" [(ngModel)]="coin.acronym" name="acronym" #acronym="ngModel" required>
+        <div [hidden]="acronym.valid || acronym.pristine" class="alert alert-danger">El acrónimo no puede estar vacío.</div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group required">
+        <label for="nombre" class="control-label">Nombre:</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="coin.name" name="name" #name="ngModel" required>
+        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">El nombre no puede estar vacío.</div>
+      </div>
+    </div>
+    <div class="col-md-12 text-right">
+      <button type="submit" class="btn btn-success m-r-10" [disabled]="!loginForm.form.valid">Aceptar</button>
+      <button type="button" class="btn btn-danger" (click)="cancelarEditar()">Cancelar</button>
     </div>
   </div>
-  <div class="col-md-6">
-    <div class="form-group required">
-      <label for="nombre" class="control-label">Nombre:</label>
-      <input type="text" class="form-control" id="nombre" [(ngModel)]="nombre" name="nombre" #nombreText="ngModel" required>
-    </div>
-  </div>
-  <div class="col-md-12 text-right">
-    <button type="button" class="btn btn-success m-r-10" (click)="aceptarEditar()">Aceptar</button>
-    <button type="button" class="btn btn-danger" (click)="cancelarEditar()">Cancelar</button>
-  </div>
-</div>
+</form>

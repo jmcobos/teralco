@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PortfolioService } from '../../providers/portfolio.service';
 import { PortfolioLinesService } from '../../providers/portfolio-lines.service';
 import { forEach } from '@angular/router/src/utils/collection';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-portfolio',
@@ -34,12 +35,14 @@ export class PortfolioComponent implements OnInit {
               });
             },
             (error: any) => {
+              swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
               console.log('Error: ' + JSON.stringify(error));
             }
           );
         });
       },
       (error) => {
+        swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
         console.log('Error: ' + JSON.stringify(error));
       }
     );
@@ -51,7 +54,6 @@ export class PortfolioComponent implements OnInit {
         element.mostrar = !element.mostrar;
       }
     });
-    console.log(this.portfolios);
   }
 
   editarPortfolio(portfolio) {

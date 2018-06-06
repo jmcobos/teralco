@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrencyService } from './../../providers/currency.service';
 import { forEach } from '@angular/router/src/utils/collection';
+import { Coin } from '../../models/coin';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-currency',
@@ -10,10 +12,8 @@ import { forEach } from '@angular/router/src/utils/collection';
 export class CurrencyComponent implements OnInit {
 
   currencies = [];
+  coin = new Coin(0, '', '');
   mostrarEditar = true;
-  actualCurrency = {};
-  acronimo: string;
-  nombre: string;
 
   constructor(private currency: CurrencyService) { }
 
@@ -23,22 +23,24 @@ export class CurrencyComponent implements OnInit {
         this.currencies = response._embedded.currencies;
       },
       (error: any) => {
-        console.log('Error: ' + JSON.stringify(error));
+        swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
       }
     );
   }
 
   crearCurrency() {
-    /*this*/
+    alert('hola');
   }
 
   editarCurrency(currency) {
     if (currency) {
-      this.acronimo = currency.acronym;
-      this.nombre = currency.name;
-      this.actualCurrency = currency;
+      this.coin.id = currency.id;
+      this.coin.acronym = currency.acronym;
+      this.coin.name = currency.name;
+      this.mostrarEditar = !this.mostrarEditar;
+    } else {
+      this.cancelarEditar();
     }
-    this.mostrarEditar = !this.mostrarEditar;
   }
 
   eliminarCurrency(currency) {
@@ -53,7 +55,7 @@ export class CurrencyComponent implements OnInit {
         alert(currency.name);
       },
       (error: any) => {
-        console.log('Error: ' + JSON.stringify(error));
+        swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
       }
     );
   }
@@ -63,27 +65,28 @@ export class CurrencyComponent implements OnInit {
       (response: any) => {
         const coins = response;
         coins.forEach(element => {
-          if (element.Name === this.acronimo) {
-            this.currency.putCurrency(this.actualCurrency, this.acronimo, this.nombre).subscribe(
+          if (element.Name === this.coin.acronym) {
+            this.currency.putCurrency(this.coin.id, this.coin.acronym, this.coin.name).subscribe(
               (responsePut: any) => {
                 console.log(responsePut);
               },
               (error) => {
-                console.log('Error: ' + JSON.stringify(error));
+                swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
               }
             );
           }
         });
       },
       (error) => {
-        console.log('Error: ' + JSON.stringify(error));
+        swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
       }
     );
   }
 
   cancelarEditar() {
-    this.acronimo = '';
-    this.nombre = '';
+    this.coin.id = 0;
+    this.coin.acronym = '';
+    this.coin.name = '';
     this.mostrarEditar = !this.mostrarEditar;
   }
 
