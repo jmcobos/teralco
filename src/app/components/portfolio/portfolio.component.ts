@@ -14,6 +14,7 @@ export class PortfolioComponent implements OnInit {
   portfolios = [];
   mostrarEditar = true;
   nombre: string;
+  cargado = false;
 
   constructor(private portfolio: PortfolioService, private lines: PortfolioLinesService) { }
 
@@ -30,6 +31,7 @@ export class PortfolioComponent implements OnInit {
                 this.lines.getCurrencyByLine(e.id).subscribe(
                   (responseCurrency: any) => {
                     e.currency = responseCurrency.acronym;
+                    this.cargado = true;
                   }
                 );
               });

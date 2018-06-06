@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-.m-t-10{
+.m-t-10 {
     margin-top: 10px;
 }
 
-.m-t-20{
+.m-t-20{ 
     margin-top: 15px;
 }
 
@@ -15,11 +15,15 @@
     padding-left: 10px;
 }
 
-.p-l-30{
+.p-l-30 {
     margin-left: 30px;
 }
 
-.p-l-50{
+.m-t-30 {
+    margin-top: 30px;
+}
+
+.p-l-50 {
     margin-left: 50px;
 }
 

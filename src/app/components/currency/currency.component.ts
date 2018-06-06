@@ -15,6 +15,7 @@ export class CurrencyComponent implements OnInit {
   coin = new Coin(0, '', '');
   mostrarEditar = true;
   creando = false;
+  cargado = false;
 
   constructor(private currency: CurrencyService) { }
 
@@ -22,6 +23,7 @@ export class CurrencyComponent implements OnInit {
     this.currency.getCurrencies().subscribe(
       (response: any) => {
         this.currencies = response._embedded.currencies;
+        this.cargado = true;
       },
       (error: any) => {
         swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });

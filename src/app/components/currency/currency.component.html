@@ -3,45 +3,50 @@
     <h2>List of cryptocurrencies</h2>
   </div>
 </div>
-<div class="row m-t-10" [hidden]="!mostrarEditar">
-  <div class="col-md-10"></div>
-  <div class="col-md-2 text-right p-l-0">
-      <button type="button" class="btn btn-success btn-block btn-sm m-r-10" (click)="editarCurrency(null)">Crear</button>
-  </div>
+<div class="row text-center m-t-30" [hidden]="cargado">
+  <div class="col-md-12"><p>Cargando</p><p><fa name="spinner" animation="spin" size="3x"></fa></p></div>
 </div>
-<div class="clear m-t-20"></div>
-<div *ngFor="let currency of currencies" [hidden]="!mostrarEditar">
-  <div class="row m-t-10">
-    <div class="col-md-1 col-sm-1 col-1"><p>{{currency.id}}</p></div>
-    <div class="col-md-1 col-sm-1 col-2"><p>{{currency.acronym}}</p></div>
-    <div class="col-md-8 col-sm-5 col-8"><p>{{currency.name}}</p></div>
-    <div class="col-md-1 col-sm-5 col-12 text-right p-l-0">
-      <button type="button" class="btn btn-primary btn-block btn-sm m-r-10" (click)="editarCurrency(currency)">Editar</button>
-    </div>
-    <div class="col-md-1 col-sm-5 col-12 text-right p-l-0">
-      <button type="button" class="btn btn-default btn-block btn-sm" (click)="eliminarCurrency(currency)">Delete</button>
+<div [hidden]="!cargado">
+  <div class="row m-t-10" [hidden]="!mostrarEditar">
+    <div class="col-md-10"></div>
+    <div class="col-md-2 text-right p-l-0">
+        <button type="button" class="btn btn-success btn-block btn-sm m-r-10" (click)="editarCurrency(null)">Crear</button>
     </div>
   </div>
-</div>
-<form #coinForm="ngForm" (ngSubmit)="aceptarEditar(coinForm); coinForm.reset();">
-  <div class="row m-t-10" [hidden]="mostrarEditar">
-    <div class="col-md-6">
-      <div class="form-group required">
-        <label for="acronym" class="control-label">Acrónimo:</label>
-        <input type="text" class="form-control" id="acronym" [(ngModel)]="coin.acronym" name="acronym" #acronym="ngModel" required>
-        <div [hidden]="acronym.valid || acronym.pristine" class="alert alert-danger">El acrónimo no puede estar vacío.</div>
+  <div class="clear m-t-20"></div>
+  <div *ngFor="let currency of currencies" [hidden]="!mostrarEditar">
+    <div class="row m-t-10">
+      <div class="col-md-1 col-sm-1 col-1"><p>{{currency.id}}</p></div>
+      <div class="col-md-1 col-sm-1 col-2"><p>{{currency.acronym}}</p></div>
+      <div class="col-md-8 col-sm-5 col-8"><p>{{currency.name}}</p></div>
+      <div class="col-md-1 col-sm-5 col-12 text-right p-l-0">
+        <button type="button" class="btn btn-primary btn-block btn-sm m-r-10" (click)="editarCurrency(currency)">Editar</button>
+      </div>
+      <div class="col-md-1 col-sm-5 col-12 text-right p-l-0">
+        <button type="button" class="btn btn-default btn-block btn-sm" (click)="eliminarCurrency(currency)">Delete</button>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="form-group required">
-        <label for="nombre" class="control-label">Nombre:</label>
-        <input type="text" class="form-control" id="name" [(ngModel)]="coin.name" name="name" #name="ngModel" required>
-        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">El nombre no puede estar vacío.</div>
+  </div>
+  <form #coinForm="ngForm" (ngSubmit)="aceptarEditar(coinForm); coinForm.reset();">
+    <div class="row m-t-10" [hidden]="mostrarEditar">
+      <div class="col-md-6">
+        <div class="form-group required">
+          <label for="acronym" class="control-label">Acrónimo:</label>
+          <input type="text" class="form-control" id="acronym" [(ngModel)]="coin.acronym" name="acronym" #acronym="ngModel" required>
+          <div [hidden]="acronym.valid || acronym.pristine" class="alert alert-danger">El acrónimo no puede estar vacío.</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group required">
+          <label for="nombre" class="control-label">Nombre:</label>
+          <input type="text" class="form-control" id="name" [(ngModel)]="coin.name" name="name" #name="ngModel" required>
+          <div [hidden]="name.valid || name.pristine" class="alert alert-danger">El nombre no puede estar vacío.</div>
+        </div>
+      </div>
+      <div class="col-md-12 text-right">
+        <button type="submit" class="btn btn-success m-r-10" [disabled]="!coinForm.form.valid">Aceptar</button>
+        <button type="button" class="btn btn-danger" (click)="cancelarEditar(); coinForm.reset();">Cancelar</button>
       </div>
     </div>
-    <div class="col-md-12 text-right">
-      <button type="submit" class="btn btn-success m-r-10" [disabled]="!coinForm.form.valid">Aceptar</button>
-      <button type="button" class="btn btn-danger" (click)="cancelarEditar(); coinForm.reset();">Cancelar</button>
-    </div>
-  </div>
-</form>
+  </form>
+</div>
