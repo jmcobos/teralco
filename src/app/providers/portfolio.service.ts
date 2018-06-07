@@ -23,7 +23,7 @@ export class PortfolioService {
   public postPortfolio(body: Portfolio) {
     return this.http.post(urlPortfolio, body, httpOptions);
   }
-  
+
   public putPortfolio(body: Portfolio) {
     return this.http.put(urlPortfolio + '/' + body.id, body, httpOptions);
   }

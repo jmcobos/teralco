@@ -4,7 +4,6 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { SharedService } from './../../providers/shared.service';
 import { Coin } from '../../models/coin';
 import swal from 'sweetalert2';
-import { SharedService } from '../../providers/shared.service';
 
 @Component({
   selector: 'app-currency',
@@ -77,7 +76,6 @@ export class CurrencyComponent implements OnInit {
     } else {
       this.currency.getCoinsAvailables(this.coin.acronym).subscribe(response => {
         if (response.length === 1) {
-          debugger;
           this.currency.postCurrency(this.shared.getCoin()).subscribe(
             (responsePut: any) => {
               swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
