@@ -35,7 +35,6 @@ export class CurrencyService {
   }
 
   public getCoinsAvailables(acronym) {
-    debugger;
     return this.http.get(urlCriptoCompare, httpOptions).pipe(
       map((coins: any) => {
         return Object.keys(coins.Data).filter(key => coins.Data[key].Name == acronym);

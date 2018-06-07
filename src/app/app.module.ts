@@ -15,6 +15,7 @@ import { PortfolioComponent } from './components/portfolio/portfolio.component';
 import { CurrencyService } from './providers/currency.service';
 import { PortfolioService } from './providers/portfolio.service';
 import { PortfolioLinesService } from './providers/portfolio-lines.service';
+import { SharedService } from './providers/shared.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { PortfolioLinesService } from './providers/portfolio-lines.service';
   providers: [
     CurrencyService,
     PortfolioService,
-    PortfolioLinesService
+    PortfolioLinesService,
+    SharedService
   ],
   bootstrap: [
     AppComponent

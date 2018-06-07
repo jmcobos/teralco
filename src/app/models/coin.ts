@@ -1,7 +1,7 @@
 export class Coin {
     constructor(
-        public id: number,
-        public acronym: string,
-        public name: string
+        public id?: number,
+        public acronym?: string,
+        public name?: string
     ) {}
 }
