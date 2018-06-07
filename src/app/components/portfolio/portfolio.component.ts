@@ -97,8 +97,9 @@ export class PortfolioComponent implements OnInit {
     this.portfolio.getPortfolios().subscribe(
       (response: any) => {
         this.portfolios = response._embedded.portfolios;
-        this.portfolios.forEach((element) => {
+        this.portfolios.forEach((element, index) => {
           element.mostrar = true;
+          element.total = 0;
           this.lines.getPortfolioLines(element.id).subscribe(
             (responseLine: any) => {
               element.lineas = responseLine._embedded.portfolioLines;
@@ -109,7 +110,20 @@ export class PortfolioComponent implements OnInit {
                     e.currency = responseCurrency.acronym;
                     e.currencyName = responseCurrency.name;
                     e.currencyId = responseCurrency.id;
-                    this.cargado = true;
+                    this.lines.getPriceLine(e.currency).subscribe(
+                      (responsePrice: any) => {
+                        e.value = responsePrice.EUR;
+                        e.price = e.value * e.amount;
+                        this.cargado = true;
+                        if (Number.isNaN(e.price)) {
+                          e.price = 0;
+                        }
+                        element.total = element.total + e.price;
+                      },
+                      (error) => {
+                        swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+                      }
+                    );
                   }
                 );
               });
@@ -126,6 +140,18 @@ export class PortfolioComponent implements OnInit {
     );
   }
 
+  guardarPortfolioLine() {
+    this.portfolio.putPortfolio(this.portflo).subscribe(
+      (responsePut: any) => {
+        swal({ type: 'success', title: 'Success', text: 'Operation completed successfully!' });
+        this.cancelarEditar();
+      },
+      (error) => {
+        swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
+      }
+    );
+  }
+
   eliminarPortfolioLine(line) {
     this.lines.deletePortfolioLine(line.id).subscribe(
       (response: any) => {
@@ -134,7 +160,7 @@ export class PortfolioComponent implements OnInit {
       (error) => {
         swal({ type: 'error', title: 'Oops...', text: 'Something went wrong!' });
       }
-    )
+    );
   }
 
   editarPortfolioLine(line, portfolio) {
@@ -142,6 +168,16 @@ export class PortfolioComponent implements OnInit {
       element.lineas.forEach(e => {
         if (e.id === line.id) {
           e.mostrarEditarLinea = true;
+        }
+      });
+    });
+  }
+
+  cancelPortfolioLine(line) {
+    this.portfolios.forEach(element => {
+      element.lineas.forEach(e => {
+        if (e.id === line.id) {
+          e.mostrarEditarLinea = false;
         }
       });
     });

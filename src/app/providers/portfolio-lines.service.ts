@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { urlPortfolio, urlPortfolioLines } from './../config/urls.component';
+import { urlPortfolio, urlPortfolioLines, urlPriceLines } from './../config/urls.component';
 import { Portfolioline } from './../models/portfolioline';
 
 const httpOptions = {
@@ -34,5 +34,9 @@ export class PortfolioLinesService {
 
   public deletePortfolioLine(id) {
     return this.http.delete(urlPortfolioLines + '/' + id, httpOptions);
+  }
+
+  public getPriceLine(currency) {
+    return this.http.get(urlPriceLines + '?fsym=' + currency + '&tsyms=EUR', httpOptions);
   }
 }

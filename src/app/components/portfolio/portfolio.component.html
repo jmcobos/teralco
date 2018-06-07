@@ -17,13 +17,14 @@
   <div *ngFor="let portfolio of portfolios" [hidden]="!mostrarEditar">
     <div class="row m-t-10">
       <div class="col-md-1"><p>{{portfolio.id}}</p></div>
-      <div class="col-md-9">
+      <div class="col-md-6">
         <p (click)="desplegarDetalle(portfolio)">
           {{portfolio.name}}
           <span *ngIf="portfolio.mostrar"><fa name="angle-down" size="lg"></fa></span>
           <span *ngIf="!portfolio.mostrar"><fa name="angle-up" size="lg"></fa></span>
         </p>
       </div>
+      <div class="col-md-3 text-right">{{portfolio.total | number:'1.0-2'}}</div>
       <div class="col-md-1 text-right p-l-0">
         <button type="button" class="btn btn-primary btn-block btn-sm m-r-10" (click)="editarPortfolio(portfolio)">Editar</button>
       </div>
@@ -32,22 +33,33 @@
       </div>
     </div>
     <div class="row m-t-10" [hidden]="portfolio.mostrar">
-      <div class="col-md-1"><p class="p-l-50">Id</p></div>
-      <div class="col-md-2"><p class="p-l-50">Coin</p></div>
-      <div class="col-md-5"><p class="p-l-50">Name</p></div>
-      <div class="col-md-2 text-right"><p class="p-l-50">Amount</p></div>
-      <div class="col-md-2"></div>
+      <div class="col-md-12 p-l-50">
+        <div class="row">
+          <div class="col-md-1"><p>Id</p></div>
+          <div class="col-md-1"><p>Coin</p></div>
+          <div class="col-md-3"><p>Name</p></div>
+          <div class="col-md-2 text-right"><p>Amount</p></div>
+          <div class="col-md-2 text-right"><p>Price</p></div>
+          <div class="col-md-3"></div>
+        </div>
+      </div>
     </div>
     <div class="row" *ngFor="let line of portfolio.lineas" [hidden]="portfolio.mostrar">
-      <div class="col-md-1"><p class="p-l-50">{{line.id}}</p></div>
-      <div class="col-md-2"><p class="p-l-50">{{line.currency}}</p></div>
-      <div class="col-md-5"><p class="p-l-50">{{line.currencyName}}</p></div>
-      <div class="col-md-2 text-right" *ngIf="!line.mostrarEditarLinea"><p class="p-l-50">{{line.amount | number:'1.2'}}</p></div>
-      <div class="col-md-2 text-right" *ngIf="line.mostrarEditarLinea"><input type="text" [(ngModel)]="line.amount"></div>
-      <div class="col-md-2">
-        <button type="button" *ngIf="!line.mostrarEditarLinea" class="btn btn-link btn-sm m-r-10" (click)="editarPortfolioLine(line, portfolio)"><fa name="edit" size="lg"></fa></button>
-        <button type="button" *ngIf="line.mostrarEditarLinea" class="btn btn-link btn-sm m-r-10" (click)="editarPortfolioLine(line, portfolio)"><fa name="save" size="lg"></fa></button>
-        <button type="button" class="btn btn-link btn-sm" (click)="eliminarPortfolioLine(line)"><fa name="trash" size="lg"></fa></button>
+      <div class="col-md-12 p-l-50">
+        <div class="row">
+          <div class="col-md-1"><p>{{line.id}}</p></div>
+          <div class="col-md-1"><p>{{line.currency}}</p></div>
+          <div class="col-md-3"><p>{{line.currencyName}}</p></div>
+          <div class="col-md-2 text-right" *ngIf="!line.mostrarEditarLinea"><p>{{line.amount | number:'1.2'}}</p></div>
+          <div class="col-md-2 text-right" *ngIf="line.mostrarEditarLinea"><input type="text" [(ngModel)]="line.amount"></div>
+          <div class="col-md-2 text-right"><p>{{line.price | number:'1.0-2'}}</p></div>
+          <div class="col-md-3">
+            <button type="button" *ngIf="!line.mostrarEditarLinea" class="btn btn-link btn-sm m-r-10" (click)="editarPortfolioLine(line, portfolio)"><fa name="edit" size="lg"></fa></button>
+            <button type="button" *ngIf="line.mostrarEditarLinea" class="btn btn-link btn-sm m-r-10" (click)="guardarPortfolioLine(line, portfolio)"><fa name="save" size="lg"></fa></button>
+            <button type="button" *ngIf="!line.mostrarEditarLinea" class="btn btn-link btn-sm" (click)="eliminarPortfolioLine(line)"><fa name="trash" size="lg"></fa></button>
+            <button type="button" *ngIf="line.mostrarEditarLinea" class="btn btn-link btn-sm" (click)="cancelPortfolioLine(line)"><fa name="times" size="lg"></fa></button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
